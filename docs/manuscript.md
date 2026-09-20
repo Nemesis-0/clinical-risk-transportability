@@ -252,21 +252,21 @@ feature construction.
 
 The primary outcome was incident sepsis onset during:
 
-$$
+```math
 (6,18]
-$$
+```
 
 hours after ICU admission.
 
 Thus, the prediction target was:
 
-$$
+```math
 P(
 \text{incident sepsis during }(6,18]
 \mid
 \text{information available through hour 6}
 ).
-$$
+```
 
 The 12-hour post-landmark horizon was selected during System A cohort
 development and frozen before System B model performance was examined.
@@ -281,13 +281,13 @@ onset [7].
 For patients with an observed transition from `SepsisLabel = 0` to
 `SepsisLabel = 1`, clinical onset was reconstructed as:
 
-$$
+```math
 t_{\mathrm{sepsis}}
 =
 t_{\mathrm{first\ positive\ label}}
 +
 6.
-$$
+```
 
 Patients whose first available record was already positive were treated
 as left truncated because their exact onset time could not be
@@ -448,14 +448,14 @@ Performance metrics included:
 
 Calibration was characterized using the joint logistic calibration model [10]:
 
-$$
+```math
 \operatorname{logit}(P(Y=1))
 =
 \alpha
 +
 \beta
 \operatorname{logit}(\hat p).
-$$
+```
 
 Calibration-in-the-large (CITL) was assessed separately by fixing the slope at
 one.
@@ -581,24 +581,24 @@ Two recalibration transformations were considered [11].
 
 ### Intercept-only recalibration
 
-$$
+```math
 \operatorname{logit}(p_{\mathrm{updated}})
 =
 \alpha
 +
 \operatorname{logit}(p_{\mathrm{original}})
-$$
+```
 
 ### Intercept-and-slope recalibration
 
-$$
+```math
 \operatorname{logit}(p_{\mathrm{updated}})
 =
 \alpha
 +
 \beta
 \operatorname{logit}(p_{\mathrm{original}})
-$$
+```
 
 Primary evaluation used five-fold stratified cross-fitting within
 System B.
