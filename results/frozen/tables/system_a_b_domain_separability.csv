@@ -1,0 +1,6 @@
+representation,n_features,AUROC
+Availability indicators only,29,0.9877592473245241
+Observed values and context,55,0.8191212883680098
+Full frozen representation,84,0.9940758241053562
+High-coverage representation,30,0.7655658344168126
+Strict high-coverage clinical/basic context,23,0.7058817497403043

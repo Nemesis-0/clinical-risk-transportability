@@ -1,0 +1,180 @@
+# Frozen feature specification for the clinical-risk transportability study.
+# Feature design was performed using Health System A only.
+
+feature_set:
+  name: hour6_frozen_representation
+  landmark_hour: 6
+  information_cutoff_hour: 6
+  total_model_predictors: 84
+
+selection:
+  development_system: system_a
+
+  initial_candidate_variables: 39
+
+  longitudinal_availability_threshold:
+    minimum_patient_fraction: 0.10
+    evaluated_in: system_a
+    evaluated_by_landmark_hour: 6
+
+  excluded_sparse_variables:
+    - Bilirubin_total
+    - Fibrinogen
+    - TroponinI
+    - Bilirubin_direct
+    - EtCO2
+
+longitudinal_variables:
+
+  vital_signs:
+    retained_count: 7
+    variables:
+      - HR
+      - O2Sat
+      - Temp
+      - SBP
+      - MAP
+      - DBP
+      - Resp
+
+    features_per_variable:
+      - last
+      - mean
+      - min
+      - max
+      - available
+
+    total_engineered_features: 35
+
+  laboratory_variables:
+    retained_count: 22
+    variables:
+      - BaseExcess
+      - HCO3
+      - FiO2
+      - pH
+      - PaCO2
+      - SaO2
+      - AST
+      - BUN
+      - Alkalinephos
+      - Calcium
+      - Chloride
+      - Creatinine
+      - Glucose
+      - Lactate
+      - Magnesium
+      - Phosphate
+      - Potassium
+      - Hct
+      - Hgb
+      - PTT
+      - WBC
+      - Platelets
+
+    features_per_variable:
+      - last
+      - available
+
+    total_engineered_features: 44
+
+static_numeric:
+  variables:
+    - Age
+    - Gender
+    - HospAdmTime
+
+  total_features: 3
+
+icu_unit_context:
+  source_variables:
+    - Unit1
+    - Unit2
+
+  derived_levels:
+    - Unit1
+    - Unit2
+    - Unknown
+
+  encoding:
+    type: indicator
+    reference_level: Unknown
+    model_columns:
+      - ICU_unit_Unit1
+      - ICU_unit_Unit2
+
+  total_features: 2
+
+feature_counts:
+  vital_sign_features: 35
+  laboratory_features: 44
+  static_numeric_features: 3
+  icu_unit_features: 2
+  total: 84
+
+missingness:
+  preserve_missing_values_in_feature_matrix: true
+
+  explicit_availability_indicators:
+    enabled: true
+    apply_to:
+      - vital_signs
+      - laboratory_variables
+
+  global_imputation_during_feature_construction: false
+
+aggregation:
+  use_only_measurements_at_or_before_landmark: true
+
+  vital_signs:
+    - last
+    - mean
+    - min
+    - max
+
+  laboratory_variables:
+    - last
+
+excluded_engineering:
+  longitudinal_slopes:
+    included_in_primary_model: false
+
+  measurement_counts:
+    included_in_primary_model: false
+    reserved_for_distribution_shift_diagnostics: true
+
+plausibility_cleaning:
+  enabled: true
+  rules_defined_using: system_a
+  convert_flagged_values_to_missing: true
+  apply_same_rules_to_system_b: true
+  allow_system_b_driven_rule_changes: false
+
+  note: >
+    Variable-specific plausibility rules are implemented in the frozen
+    preprocessing pipeline and documented by the feature audit. No new
+    cleaning rule is introduced in response to System B performance or
+    post-validation distributional findings.
+
+system_b_policy:
+  use_frozen_system_a_variable_set: true
+  use_frozen_system_a_feature_engineering: true
+  use_frozen_system_a_feature_order: true
+  allow_feature_reselection: false
+  allow_feature_redefinition: false
+
+processed_outputs:
+  system_a:
+    path: data/processed/system_a_features.csv
+
+  system_b:
+    path: data/processed/system_b_features.csv
+
+  identifier_column: patient_id
+  outcome_column: outcome
+  model_predictor_count: 84
+  total_columns_with_identifier_and_outcome: 86
+
+metadata:
+  feature_specification: data/metadata/feature_specification.csv
+  variable_dictionary: data/metadata/variable_dictionary.md

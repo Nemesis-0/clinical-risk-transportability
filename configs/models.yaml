@@ -1,0 +1,196 @@
+# Model-development and validation specification for the
+# clinical-risk transportability study.
+#
+# Exact hyperparameters of the final fitted System A models are recorded
+# in results/frozen/metadata/system_a_model_specification.json.
+
+modeling:
+  development_system: system_a
+  external_validation_system: system_b
+
+  outcome_column: outcome
+  identifier_column: patient_id
+
+  feature_count: 84
+
+models:
+
+  ridge_logistic:
+    display_name: Ridge logistic regression
+    family: logistic_regression
+    penalty: l2
+
+    missing_value_handling:
+      method: imputation
+      fit_within_training_data_only: true
+
+    scaling:
+      enabled: true
+      fit_within_training_data_only: true
+
+    hyperparameter_tuning:
+      enabled: true
+      primary_parameter: C
+      performed_in_system_a_only: true
+
+  elastic_net_logistic:
+    display_name: Elastic-net logistic regression
+    family: logistic_regression
+    penalty: elasticnet
+
+    missing_value_handling:
+      method: imputation
+      fit_within_training_data_only: true
+
+    scaling:
+      enabled: true
+      fit_within_training_data_only: true
+
+    hyperparameter_tuning:
+      enabled: true
+      parameters:
+        - C
+        - l1_ratio
+      performed_in_system_a_only: true
+
+  lightgbm:
+    display_name: LightGBM
+    family: gradient_boosted_decision_trees
+
+    missing_value_handling:
+      method: native
+      imputation_required: false
+
+    scaling:
+      enabled: false
+
+    hyperparameter_tuning:
+      enabled: true
+      performed_in_system_a_only: true
+
+validation:
+
+  internal:
+    system: system_a
+    strategy: nested_stratified_cross_validation
+
+    outer_folds: 5
+
+    generate_out_of_fold_predictions: true
+
+    preprocessing:
+      fit_inside_training_folds: true
+
+    hyperparameter_selection:
+      performed_inside_outer_training_data: true
+      access_to_outer_test_fold: false
+
+    primary_prediction_output:
+      path: results/frozen/predictions/system_a_oof_predictions.csv
+
+  external:
+    system: system_b
+    strategy: locked_external_validation
+
+    refit_models: false
+    reselect_features: false
+    learn_system_b_scaling_parameters: false
+    recalibrate_before_primary_evaluation: false
+    modify_cohort_based_on_model_performance: false
+
+    prediction_output:
+      path: results/frozen/predictions/system_b_external_predictions.csv
+
+performance_metrics:
+  discrimination:
+    - AUROC
+    - AUPRC
+
+  probability_accuracy:
+    - Brier_score
+    - log_loss
+
+  calibration:
+    - calibration_in_the_large
+    - calibration_intercept
+    - calibration_slope
+
+calibration_definition:
+
+  joint_calibration_model:
+    form: logit_observed_risk_equals_alpha_plus_beta_logit_predicted_risk
+    intercept_parameter: alpha
+    slope_parameter: beta
+
+  calibration_in_the_large:
+    slope_fixed_at: 1
+    interpretation:
+      negative: systematic_overprediction
+      positive: systematic_underprediction
+
+  calibration_slope:
+    ideal_value: 1
+    below_one: excessive_dispersion_of_predicted_log_odds
+    above_one: insufficient_dispersion_of_predicted_log_odds
+
+uncertainty:
+
+  bootstrap:
+    resampling_unit: patient
+
+  model_comparisons:
+    method: paired_patient_level_bootstrap
+
+final_fit:
+
+  training_system: system_a
+  use_full_eligible_development_cohort: true
+
+  specification_source:
+    path: results/frozen/metadata/system_a_model_specification.json
+
+  fitted_models:
+    ridge_logistic:
+      path: results/frozen/models/ridge_system_a.joblib
+
+    elastic_net_logistic:
+      path: results/frozen/models/elastic_net_system_a.joblib
+
+    lightgbm:
+      path: results/frozen/models/lightgbm_system_a.joblib
+
+freeze_policy:
+
+  model_families_frozen_before_system_b_performance_review: true
+  feature_representation_frozen_before_system_b_performance_review: true
+  preprocessing_frozen_before_system_b_performance_review: true
+  final_hyperparameters_frozen_before_system_b_performance_review: true
+  fitted_system_a_models_frozen_before_external_validation: true
+
+  allow_system_b_driven_model_selection: false
+  allow_system_b_driven_hyperparameter_tuning: false
+  allow_system_b_driven_feature_changes: false
+
+post_validation:
+
+  distribution_shift_analysis:
+    allowed_after_locked_external_validation: true
+
+  recalibration:
+    allowed_after_locked_external_validation: true
+    underlying_system_a_models_refit: false
+
+    strategies:
+      - intercept_only
+      - intercept_and_slope
+
+    evaluation:
+      system: system_b
+      strategy: five_fold_stratified_cross_fitting
+
+    prediction_output:
+      path: results/frozen/predictions/system_b_cross_fitted_recalibrated_predictions.csv
+
+  subgroup_sensitivity:
+    allowed_after_locked_external_validation: true
+    use_original_locked_system_b_predictions: true

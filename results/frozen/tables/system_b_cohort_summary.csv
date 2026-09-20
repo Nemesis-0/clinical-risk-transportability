@@ -1,0 +1,9 @@
+metric,value
+raw_patients,20000.0
+observed_at_landmark,19941.0
+onset_left_truncated,223.0
+prevalent_sepsis,0.0
+outcome_observable,18038.0
+eligible_patients,17982.0
+positive_events,175.0
+event_rate,0.00973195417639862

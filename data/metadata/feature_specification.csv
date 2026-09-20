@@ -1,0 +1,34 @@
+feature,variable_group,primary_representation,availability_indicator,measurement_count_primary
+Age,Static,single value,False,False
+Gender,Static,single value,False,False
+HospAdmTime,Static,single value,False,False
+ICU_unit,Static / categorical,3-level categorical; Unknown reference,False,False
+HR,Vital,"last, mean, min, max",True,False
+MAP,Vital,"last, mean, min, max",True,False
+O2Sat,Vital,"last, mean, min, max",True,False
+Resp,Vital,"last, mean, min, max",True,False
+SBP,Vital,"last, mean, min, max",True,False
+Temp,Vital,"last, mean, min, max",True,False
+DBP,Vital,"last, mean, min, max",True,False
+Hct,Laboratory,last,True,False
+Glucose,Laboratory,last,True,False
+Potassium,Laboratory,last,True,False
+Hgb,Laboratory,last,True,False
+BUN,Laboratory,last,True,False
+Chloride,Laboratory,last,True,False
+HCO3,Laboratory,last,True,False
+FiO2,Laboratory,last,True,False
+pH,Laboratory,last,True,False
+BaseExcess,Laboratory,last,True,False
+WBC,Laboratory,last,True,False
+PaCO2,Laboratory,last,True,False
+Platelets,Laboratory,last,True,False
+Creatinine,Laboratory,last,True,False
+Magnesium,Laboratory,last,True,False
+PTT,Laboratory,last,True,False
+Calcium,Laboratory,last,True,False
+Phosphate,Laboratory,last,True,False
+SaO2,Laboratory,last,True,False
+Lactate,Laboratory,last,True,False
+AST,Laboratory,last,True,False
+Alkalinephos,Laboratory,last,True,False

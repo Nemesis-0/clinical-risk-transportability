@@ -1,0 +1,15 @@
+finding,value
+System A event rate,0.019840633188940585
+System B event rate,0.00973195417639862
+System B / System A event-rate ratio,0.49050622949994016
+Availability features with >= 5 pp shift,22.0
+Availability features with >= 10 pp shift,15.0
+Availability features with >= 20 pp shift,9.0
+Availability features with >= 30 pp shift,5.0
+Maximum absolute availability shift,0.5072282025862431
+System A proportion with 6 pre-landmark rows,0.6411572811380287
+System B proportion with 6 pre-landmark rows,0.9401623846068291
+System B observed calcium below 2,0.2521473114484057
+Availability-only domain AUROC,0.9877592473245241
+Full-representation domain AUROC,0.9940758241053562
+Strict high-coverage domain AUROC,0.7058817497403043

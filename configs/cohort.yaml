@@ -1,0 +1,76 @@
+# Cohort specification for the clinical-risk transportability study.
+# This file records the frozen primary cohort and prediction-task rules.
+
+study:
+  name: clinical-risk-transportability
+
+systems:
+  development:
+    name: system_a
+    raw_data_dir: data/raw/training/training_setA
+
+  external_validation:
+    name: system_b
+    raw_data_dir: data/raw/training/training_setB
+
+prediction_task:
+  landmark_hour: 6
+
+  outcome:
+    name: incident_sepsis
+    window:
+      start_hour: 6
+      end_hour: 18
+      start_inclusive: false
+      end_inclusive: true
+
+  information_cutoff_hour: 6
+
+sepsis_onset:
+  label_column: SepsisLabel
+
+  reconstruction:
+    method: first_positive_label_plus_offset
+    onset_offset_hours: 6
+
+  left_truncation:
+    definition: first_available_row_already_positive
+    exclude_from_primary_analysis: true
+
+eligibility:
+  require_landmark_observed: true
+
+  exclude_if_reconstructed_onset_at_or_before_landmark: true
+
+  outcome_observability:
+    positive:
+      require_incident_onset_in_prediction_window: true
+      require_followup_through_window_end: false
+
+    negative:
+      require_no_incident_onset_in_prediction_window: true
+      require_followup_through_hour: 18
+
+outcome_encoding:
+  positive: 1
+  negative: 0
+
+analysis_roles:
+  system_a:
+    cohort_design: true
+    horizon_selection: true
+    feature_design: true
+    model_development: true
+    internal_validation: true
+
+  system_b:
+    cohort_design: false
+    horizon_selection: false
+    feature_design: false
+    model_development: false
+    primary_role: locked_external_validation
+
+freeze_policy:
+  cohort_definition_frozen_before_system_b_performance_review: true
+  prediction_horizon_frozen_before_system_b_performance_review: true
+  no_performance_driven_cohort_modification_in_system_b: true
