@@ -198,13 +198,13 @@ The present study does **not** use `SepsisLabel` directly as a predictor.
 Instead, clinical onset is reconstructed from the first positive label
 according to the Challenge labeling convention:
 
-$$
+```math
 t_{\mathrm{sepsis}}
 =
 t_{\mathrm{first\ positive\ label}}
 +
 6.
-$$
+```
 
 The primary project outcome is incident reconstructed sepsis onset during
 ICU hours $(6,18]$, using information available through ICU hour 6.

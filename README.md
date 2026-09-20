@@ -78,21 +78,21 @@ Only information available at or before hour 6 is used.
 
 The primary outcome is incident sepsis onset during:
 
-$$
+```math
 (6,18]
-$$
+```
 
 hours after ICU admission.
 
 The target is therefore:
 
-$$
+```math
 P(
 \text{incident sepsis onset during }(6,18]
 \mid
 \text{information available through hour 6}
 ).
-$$
+```
 
 Patients are eligible only if:
 

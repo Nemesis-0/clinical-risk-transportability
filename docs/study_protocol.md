@@ -96,32 +96,32 @@ No post-landmark measurement is used in the prediction representation.
 
 The primary outcome is incident sepsis onset during:
 
-$$
+```math
 (6,18]
-$$
+```
 
 hours after ICU admission.
 
 For patient $i$,
 
-$$
+```math
 Y_i
 =
 \mathbf{1}
 \left(
 6 < t_{\mathrm{sepsis},i} \le 18
 \right).
-$$
+```
 
 The prediction target is therefore:
 
-$$
+```math
 P(
 \text{incident sepsis onset during }(6,18]
 \mid
 \text{information available through hour 6}
 ).
-$$
+```
 
 The 12-hour post-landmark horizon is selected using System A and frozen
 before examination of System B predictive performance.
@@ -142,13 +142,13 @@ to:
 
 clinical onset is reconstructed as:
 
-$$
+```math
 t_{\mathrm{sepsis}}
 =
 t_{\mathrm{first\ positive\ label}}
 +
 6.
-$$
+```
 
 Patients whose first available observation is already positive have a
 left-truncated onset time that cannot be reconstructed exactly.
@@ -167,9 +167,9 @@ Patients are eligible for the landmark analysis if:
 
 A positive case is a patient with reconstructed sepsis onset during:
 
-$$
+```math
 (6,18].
-$$
+```
 
 A patient without an observed event in the prediction window is
 classified as negative only if observation extends through ICU hour 18.
@@ -418,24 +418,24 @@ Two strategies are evaluated:
 
 ### Intercept-only updating
 
-$$
-\operatorname{logit}(p_{\mathrm{updated}})
+```math
+\mathrm{logit}(p_{\mathrm{updated}})
 =
 \alpha
 +
-\operatorname{logit}(p_{\mathrm{original}})
-$$
+\mathrm{logit}(p_{\mathrm{original}})
+```
 
 ### Intercept-and-slope updating
 
-$$
-\operatorname{logit}(p_{\mathrm{updated}})
+```math
+\mathrm{logit}(p_{\mathrm{updated}})
 =
 \alpha
 +
 \beta
-\operatorname{logit}(p_{\mathrm{original}})
-$$
+\mathrm{logit}(p_{\mathrm{original}})
+```
 
 Primary evaluation of recalibration uses five-fold stratified
 cross-fitting within System B.

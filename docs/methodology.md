@@ -84,19 +84,19 @@ representation.
 
 The primary outcome is incident sepsis onset during:
 
-$$
+```math
 (6, 18]
-$$
+```
 
 hours after ICU admission.
 
 Thus, the prediction task is:
 
-$$
+```math
 P(\text{incident sepsis onset in } (6,18]
 \mid
 \text{information available through hour 6})
-$$
+```
 
 The 12-hour post-landmark horizon was selected during System A cohort
 design and frozen before any examination of System B model performance.
@@ -399,14 +399,14 @@ Brier score and log loss summarize probabilistic predictive accuracy.
 
 Calibration is evaluated using a logistic calibration model of the form:
 
-$$
-\operatorname{logit}(P(Y=1))
+```math
+\mathrm{logit}(P(Y=1))
 =
 \alpha
 +
 \beta
-\operatorname{logit}(\hat p)
-$$
+\mathrm{logit}(\hat p)
+```
 
 where:
 
@@ -417,13 +417,13 @@ where:
 Calibration-in-the-large (CITL) is estimated separately by fixing the
 calibration slope at one:
 
-$$
-\operatorname{logit}(P(Y=1))
+```math
+\mathrm{logit}(P(Y=1))
 =
 \alpha_{\mathrm{CITL}}
 +
-\operatorname{logit}(\hat p)
-$$
+\mathrm{logit}(\hat p)
+```
 
 A CITL value of zero indicates correct average risk prediction.
 
@@ -805,13 +805,13 @@ Health System B probabilities is estimated.
 
 Intercept-only recalibration applies:
 
-$$
-\operatorname{logit}(p_{\text{updated}})
+```math
+\mathrm{logit}(p_{\text{updated}})
 =
 \alpha
 +
-\operatorname{logit}(p_{\text{original}})
-$$
+\mathrm{logit}(p_{\text{original}})
+```
 
 where $\alpha$ is estimated from target-system outcomes.
 
@@ -826,14 +826,14 @@ It therefore primarily addresses calibration-in-the-large.
 
 The second strategy estimates both an intercept and a slope:
 
-$$
-\operatorname{logit}(p_{\text{updated}})
+```math
+\mathrm{logit}(p_{\text{updated}})
 =
 \alpha
 +
 \beta
-\operatorname{logit}(p_{\text{original}})
-$$
+\mathrm{logit}(p_{\text{original}})
+```
 
 This approach can correct both:
 
@@ -927,13 +927,13 @@ intercept-only recalibration.
 
 For each model, the difference is defined as:
 
-$$
+```math
 \Delta
 =
 \text{performance}_{\text{intercept+slope}}
 -
 \text{performance}_{\text{intercept-only}}
-$$
+```
 
 For Brier score and log loss, negative values therefore favor estimation
 of the additional slope parameter.
@@ -1089,13 +1089,13 @@ Two thousand bootstrap replicates are used.
 
 The contrast is defined as:
 
-$$
+```math
 \Delta \text{AUROC}
 =
 \text{AUROC}_{A}
 -
 \text{AUROC}_{B}
-$$
+```
 
 A confidence interval containing zero is interpreted as insufficient
 evidence of a clear AUROC difference in this sensitivity analysis.
