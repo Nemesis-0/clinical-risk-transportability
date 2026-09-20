@@ -449,12 +449,12 @@ Performance metrics included:
 Calibration was characterized using the joint logistic calibration model [10]:
 
 ```math
-\operatorname{logit}(P(Y=1))
+\mathrm{logit}(P(Y=1))
 =
 \alpha
 +
 \beta
-\operatorname{logit}(\hat p).
+\mathrm{logit}(\hat p).
 ```
 
 Calibration-in-the-large (CITL) was assessed separately by fixing the slope at
@@ -582,22 +582,22 @@ Two recalibration transformations were considered [11].
 ### Intercept-only recalibration
 
 ```math
-\operatorname{logit}(p_{\mathrm{updated}})
+\mathrm{logit}(p_{\mathrm{updated}})
 =
 \alpha
 +
-\operatorname{logit}(p_{\mathrm{original}})
+\mathrm{logit}(p_{\mathrm{original}})
 ```
 
 ### Intercept-and-slope recalibration
 
 ```math
-\operatorname{logit}(p_{\mathrm{updated}})
+\mathrm{logit}(p_{\mathrm{updated}})
 =
 \alpha
 +
 \beta
-\operatorname{logit}(p_{\mathrm{original}})
+\mathrm{logit}(p_{\mathrm{original}})
 ```
 
 Primary evaluation used five-fold stratified cross-fitting within
